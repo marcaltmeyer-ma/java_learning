@@ -1,7 +1,10 @@
-import java.util.Iterator;
+//MAX unused import.
 import java.util.Scanner;
 
 public class Main {
+  //MAX I defined the Scanner as static class variable. It can be used
+  //MAX everywhere where you created an extra Scanner.
+  static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		boolean replay = true;
@@ -10,9 +13,11 @@ public class Main {
 			int lives = 10;
 			String solution = enterWord();
 
+      //MAX I wouldn't want to have commented-out code in a "release" version.
 			// char[] word = solution.toCharArray();
 			char[] word = new char[solution.length()];
 
+      //MAX Just an idea: What about putting these prints in a function and printing them when the user types '?'?
 			System.out.println("Enter a letter.");
 			System.out.println("You can check thow many tokens the word has by entering '#'.");
 			System.out.println("By entering '*', you can see how many lives you have left.");
@@ -21,11 +26,12 @@ public class Main {
 			enterLetter(word, solution, lives, replay);
 
 		}
+    //MAX That's a nice and concise main function.
+    scanner.close();
 	}
 
 	public static String enterWord() {
-		Scanner scan = new Scanner(System.in);
-		String word = scan.next();
+		String word = scanner.next();
 		return word;
 	}
 
@@ -40,19 +46,22 @@ public class Main {
 	public static void askWrong(char[] wrg) {
 		System.out.println(wrg);
 	}
-	
-	public static boolean askAgain(boolean replay) {
+	//MAX trailing whitespace (well, before I put the comment on the line ^^)
+	public static void askAgain(boolean replay) {
 		System.out.println("If you want to play again, enter 'y', else enter 'n'.");
-		Scanner rpl = new Scanner(System.in);
-		String rep = rpl.next();
+		String rep = scanner.next();
 		if (rep == "y") {
+      //MAX booleans are passed by *value* in Java, you get a copy of the value
+      //MAX and the original value of the calling function won't be changed!
+      //MAX You should return a bool, if you want to pass it to the calling function.
 			replay = true;
 		} else if (rep == "n") {
 			replay = false;
 		}
-		return replay;
 	}
 
+  //MAX for these kinds of "experiments" I would rather use git branches than commenting
+  //MAX out large portions of code.
 
 	// Iterating over every letter
 	public static void enterLetter(char[] word, String solution, int lives, boolean replay) {
@@ -61,11 +70,10 @@ public class Main {
 		int idx = 0;
 
 		// System.out.println("solution1: "+solution);
-		System.out.println("debug0: " + String.valueOf(word));
+		System.out.println("debug0: " + String.valueOf(word)); //MAX debug output in release version
 		while (String.valueOf(word) != solution && lives > 0) {
 			// System.out.println("solution2: "+solution);
-			Scanner guess = new Scanner(System.in);
-			char token = guess.next().charAt(0);
+			char token = scanner.next().charAt(0);
 			boolean helper = false;
 			if (token == '#') {
 				askLength(word);
@@ -76,11 +84,18 @@ public class Main {
 			} else {
 				for (; idx < solution.length(); idx++) {
 					if (token == solution.charAt(idx)) {
-						helper = true;
+						helper = true; //MAX not quite sure what helper is used for. Is it just to
+                           //MAX say that the current char is in the word?
+                           //MAX You might want to use a better name here.
 						System.out.println(true);
 						System.out.println(token + " " + "is in the word!");
 						word[idx] = token;
 						System.out.println("word: " + String.valueOf(word));
+            //MAX one important element of hangman isn't implmented yet:
+            //MAX You don't show where the blanks in the word are.
+            //MAX Let's say the word is "messer" and the user guesses "e"
+            //MAX then your word would show as "ee". It would be nice if it
+            //MAX showed as "_e__e_".
 						// helper = false;
 						// continue;
 					}
@@ -94,6 +109,8 @@ public class Main {
 					i++;
 				}
 				// System.out.println("solution: " + solution);
+        //MAX this if statement kind of seems redundant...
+        //MAX Does it do something different from the one above?
 				if (idx > solution.length()) {
 					System.out.println("This letter is not in the word.");
 					lives--;
