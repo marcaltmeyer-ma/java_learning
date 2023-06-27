@@ -1,4 +1,5 @@
 //MAX unused import.
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -14,9 +15,9 @@ public class Main {
 			String solution = enterWord();
 
       //MAX I wouldn't want to have commented-out code in a "release" version.
-			// char[] word = solution.toCharArray();
-			char[] word = new char[solution.length()];
-
+			//char[] word = new char[solution.length()];
+			char[] word = getArray(solution);
+					
       //MAX Just an idea: What about putting these prints in a function and printing them when the user types '?'?
 			System.out.println("Enter a letter.");
 			System.out.println("You can check thow many tokens the word has by entering '#'.");
@@ -34,6 +35,12 @@ public class Main {
 		String word = scanner.next();
 		return word;
 	}
+	
+	public static char[] getArray(String solu) {
+		char[] word = new char[solu.length()];
+		Arrays.fill(word, '_');
+		return word;
+	}
 
 	public static void askLength(char[] word) {
 		System.out.println("The word has" + " " + word.length + " " + "tokens.");
@@ -47,7 +54,7 @@ public class Main {
 		System.out.println(wrg);
 	}
 	//MAX trailing whitespace (well, before I put the comment on the line ^^)
-	public static void askAgain(boolean replay) {
+	public static boolean askAgain(boolean replay) {
 		System.out.println("If you want to play again, enter 'y', else enter 'n'.");
 		String rep = scanner.next();
 		if (rep == "y") {
@@ -58,6 +65,7 @@ public class Main {
 		} else if (rep == "n") {
 			replay = false;
 		}
+		return replay;
 	}
 
   //MAX for these kinds of "experiments" I would rather use git branches than commenting
@@ -69,10 +77,8 @@ public class Main {
 		int i = 0;
 		int idx = 0;
 
-		// System.out.println("solution1: "+solution);
-		System.out.println("debug0: " + String.valueOf(word)); //MAX debug output in release version
+		//MAX debug output in release version
 		while (String.valueOf(word) != solution && lives > 0) {
-			// System.out.println("solution2: "+solution);
 			char token = scanner.next().charAt(0);
 			boolean helper = false;
 			if (token == '#') {
