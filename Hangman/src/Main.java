@@ -19,11 +19,7 @@ public class Main {
 			char[] word = getArray(solution);
 					
       //MAX Just an idea: What about putting these prints in a function and printing them when the user types '?'?
-			System.out.println("Enter a letter.");
-			System.out.println("You can check thow many tokens the word has by entering '#'.");
-			System.out.println("By entering '*', you can see how many lives you have left.");
-			System.out.println("To see the letters that were guessed wrong, enter '-'.");
-
+			askRules();
 			enterLetter(word, solution, lives, replay);
 
 		}
@@ -46,6 +42,13 @@ public class Main {
 		System.out.println("The word has" + " " + word.length + " " + "tokens.");
 	}
 
+	public static void askRules() {
+		System.out.println("Enter a letter.");
+		System.out.println("You can check thow many tokens the word has by entering '#'.");
+		System.out.println("By entering '*', you can see how many lives you have left.");
+		System.out.println("To see the letters that were guessed wrong, enter '-'.");
+		System.out.println("To see these rules again, enter '?'.");
+	}
 	public static void askLives(int lives) {
 		System.out.println("You have " + lives + " lives left.");
 	}
@@ -87,7 +90,9 @@ public class Main {
 				askLives(lives);
 			} else if (token == '-') {
 				askWrong(wrong);
-			} else {
+			} else if (token == '?') {
+				askRules();
+			}	else {
 				for (; idx < solution.length(); idx++) {
 					if (token == solution.charAt(idx)) {
 						helper = true; //MAX not quite sure what helper is used for. Is it just to
