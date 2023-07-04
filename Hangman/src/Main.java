@@ -1,4 +1,4 @@
-//MAX unused import.
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -15,7 +15,6 @@ public class Main {
 			String solution = enterWord();
 
       //MAX I wouldn't want to have commented-out code in a "release" version.
-			//char[] word = new char[solution.length()];
 			char[] word = getArray(solution);
 					
       //MAX Just an idea: What about putting these prints in a function and printing them when the user types '?'?
@@ -75,7 +74,7 @@ public class Main {
   //MAX out large portions of code.
 
 	// Iterating over every letter
-	public static void enterLetter(char[] word, String solution, int lives, boolean replay) {
+	public static boolean enterLetter(char[] word, String solution, int lives, boolean replay) {
 		char[] wrong = new char[26];
 		int i = 0;
 		int idx = 0;
@@ -107,8 +106,7 @@ public class Main {
             //MAX Let's say the word is "messer" and the user guesses "e"
             //MAX then your word would show as "ee". It would be nice if it
             //MAX showed as "_e__e_".
-						// helper = false;
-						// continue;
+
 					}
 				}
 				if (idx >= solution.length() && helper == false) {
@@ -119,7 +117,7 @@ public class Main {
 					wrong[i] = token;
 					i++;
 				}
-				// System.out.println("solution: " + solution);
+
         //MAX this if statement kind of seems redundant...
         //MAX Does it do something different from the one above?
 				if (idx > solution.length()) {
@@ -134,12 +132,13 @@ public class Main {
 			}
 			if (String.valueOf(word).equals(solution)) {
 				System.out.println("You are correct! The word is " + solution);
-				System.out.println("You had " + lives + " left.");
-				askAgain(replay);
+				System.out.println("You had " + lives + " lives left.");
+				replay = askAgain(replay);
 			} else if (lives == 0) {
 				System.out.println("Welp, you suck. The word was " + solution + ", btw.");
-				askAgain(replay);
+				replay = askAgain(replay);
 			}
 		}
+		return replay;
 	}
 }
