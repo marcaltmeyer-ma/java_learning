@@ -1,21 +1,29 @@
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.io.Console;
+import java.io.IOException;
+import java.nio.file.Files;
+//import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
   //MAX I defined the Scanner as static class variable. It can be used
   //MAX everywhere where you created an extra Scanner.
   static Scanner scanner = new Scanner(System.in);
-
 	public static void main(String[] args) {
 		boolean replay = true;
+		
 		while (replay == true) {
 			System.out.println("Enter a word.");
 			int lives = 10;
-			String solution = enterWord();
-
+			//String solution = enterWord();
+			char[] word = enterWord();
+			openWordList();
       //MAX I wouldn't want to have commented-out code in a "release" version.
-			char[] word = getArray(solution);
+			String solution = String.valueOf(word);
+			word = getArray(solution);
 					
       //MAX Just an idea: What about putting these prints in a function and printing them when the user types '?'?
 			askRules();
@@ -26,21 +34,45 @@ public class Main {
     scanner.close();
 	}
 
-	public static String enterWord() {
-		String word = scanner.next();
+//	public static String enterWord() {
+//		String word = scanner.next();
+//		return word;
+//	}
+	
+	//The function for the first player entering the word
+	public static char[] enterWord() {
+		Console cons = System.console();
+		char[] word;
+		word = cons.readPassword();
 		return word;
 	}
 	
+	//Opening Word list
+	public static List<String> openWordList() {
+		System.out.println("I arrived at the word list");
+		List<String> words = null;
+				try {
+			words = Files.readAllLines(Paths.get("wordlist.txt"));
+		} catch (IOException e) {
+			System.out.println("WordList fuckup");
+		}
+		System.out.println(words.toString());
+		return words;
+	}
+	
+	//A helping function to get the Hangman-typical _-notation of the word 
 	public static char[] getArray(String solu) {
 		char[] word = new char[solu.length()];
 		Arrays.fill(word, '_');
 		return word;
 	}
-
+	
+	//The function if the player asks for the words' length
 	public static void askLength(char[] word) {
 		System.out.println("The word has" + " " + word.length + " " + "tokens.");
 	}
-
+	
+	//The function to return the rules if the player asks
 	public static void askRules() {
 		System.out.println("Enter a letter.");
 		System.out.println("You can check thow many tokens the word has by entering '#'.");
@@ -48,13 +80,18 @@ public class Main {
 		System.out.println("To see the letters that were guessed wrong, enter '-'.");
 		System.out.println("To see these rules again, enter '?'.");
 	}
+	
+	//Gives out the lives the player has left
 	public static void askLives(int lives) {
 		System.out.println("You have " + lives + " lives left.");
 	}
-
+	
+	//Prints the list of wrong tokens
 	public static void askWrong(char[] wrg) {
 		System.out.println(wrg);
 	}
+	
+	//Ask the player if they want to play again
 	//MAX trailing whitespace (well, before I put the comment on the line ^^)
 	public static boolean askAgain(boolean replay) {
 		System.out.println("If you want to play again, enter 'y', else enter 'n'.");
@@ -73,7 +110,7 @@ public class Main {
   //MAX for these kinds of "experiments" I would rather use git branches than commenting
   //MAX out large portions of code.
 
-	// Iterating over every letter
+	//The gameplay-function. Here, the processes that are caused by player-input happen
 	public static boolean enterLetter(char[] word, String solution, int lives, boolean replay) {
 		char[] wrong = new char[26];
 		int i = 0;
