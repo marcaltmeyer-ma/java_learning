@@ -131,11 +131,13 @@ public class Main {
       //MAX booleans are passed by *value* in Java, you get a copy of the value
       //MAX and the original value of the calling function won't be changed!
       //MAX You should return a bool, if you want to pass it to the calling function.
-			replay = true;
+			System.out.println("replay = true");
+			return true;
 		} else if (rep == "n") {
-			replay = false;
+			System.out.println("replay = false");
+			return false;
 		}
-		return replay;
+		return false;
 	}
 
   //MAX for these kinds of "experiments" I would rather use git branches than commenting
