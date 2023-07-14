@@ -1,0 +1,20 @@
+Liste möglicher Erweiterungen:
+-  Punktesystem 
+-  Schwierigkeitsstufen
+-  Hilfestellungen
+-  Galgenmännchen zeichnen
+-  Zeitmessung
+-  Datenbank mit Wörtern (Done)
+-  Abbruchbedingen ("stopp" schreiben)
+-  Mehrspielermodi (Done-ish)
+-  Toleranz gegen Groß- & Kleinschreibung
+-  komplettes Lösungswort raten 
+-  Einleitung
+-  Wortkategorien
+-  interaktiver / unterhaltsamer durch Multimodalität (z.B. Animationen und Soundeffekte)
+-  Statistiken
+-  Spielstand speichern und Spiel fortsetzen
+-                   Input auf Fehler überprüfen
+-  Vernetzung der Spieler
+-  digital und somit mobil
+-  Hilfestellungen durch den Computer (z.B. häufige Wörter, die auf die Lücken passen; häufige Buchstaben-Bigramme, die auf die Lücken passen;  welche Buchstaben sind noch übrig ... )

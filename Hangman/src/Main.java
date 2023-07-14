@@ -1,6 +1,7 @@
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.io.Console;
 import java.io.IOException;
@@ -14,30 +15,61 @@ public class Main {
   static Scanner scanner = new Scanner(System.in);
 	public static void main(String[] args) {
 		boolean replay = true;
+		//boolean multiplayer = true;
+		char playerNum = 'l';
 		
+		System.out.println("For local multiplayer, enter 'l'.");
+		System.out.println("For network multiplayer, enter 'n'.");
+		System.out.println("For singleplayer, enter 's'.");
+		
+		playerNum = scanner.next().charAt(0);
+
+		
+		if (playerNum == 'l') {
+			localMultiplayer(replay);
+		} else if (playerNum == 's') {
+			singleplayer(replay);
+		} else if (playerNum == 'n') {
+			System.out.println("Network not yet implemented");
+		}
+
+    //MAX That's a nice and concise main function.
+    scanner.close();
+	}
+
+	
+	//The function that starts local multiplayer
+	public static void localMultiplayer(boolean replay) {
 		while (replay == true) {
 			System.out.println("Enter a word.");
 			int lives = 10;
 			//String solution = enterWord();
 			char[] word = enterWord();
-			openWordList();
+			
       //MAX I wouldn't want to have commented-out code in a "release" version.
-			String solution = String.valueOf(word);
+			String solution = String.valueOf(word).toLowerCase();
 			word = getArray(solution);
 					
       //MAX Just an idea: What about putting these prints in a function and printing them when the user types '?'?
 			askRules();
 			enterLetter(word, solution, lives, replay);
-
 		}
-    //MAX That's a nice and concise main function.
-    scanner.close();
 	}
-
-//	public static String enterWord() {
-//		String word = scanner.next();
-//		return word;
-//	}
+	
+	//Starts single player with a random word
+	public static void singleplayer(boolean replay) {
+		while (replay == true) {
+			int lives = 10;
+			List<String> wordlst = openWordList();
+			Random rand = new Random();
+			String randomElement = wordlst.get(rand.nextInt(wordlst.size()));
+			String solution = randomElement.toLowerCase();
+			char[] word = getArray(solution);
+			System.out.println(word);
+			askRules();
+			enterLetter(word, solution, lives, replay);
+			}
+	}
 	
 	//The function for the first player entering the word
 	public static char[] enterWord() {
@@ -47,16 +79,15 @@ public class Main {
 		return word;
 	}
 	
+	
 	//Opening Word list
 	public static List<String> openWordList() {
-		System.out.println("I arrived at the word list");
 		List<String> words = null;
 				try {
 			words = Files.readAllLines(Paths.get("wordlist.txt"));
 		} catch (IOException e) {
 			System.out.println("WordList fuckup");
 		}
-		System.out.println(words.toString());
 		return words;
 	}
 	
@@ -128,6 +159,8 @@ public class Main {
 				askWrong(wrong);
 			} else if (token == '?') {
 				askRules();
+			}else if (token == '=') {//TODO Debug line! Delete!
+				System.out.println(solution); 
 			}	else {
 				for (; idx < solution.length(); idx++) {
 					if (token == solution.charAt(idx)) {
