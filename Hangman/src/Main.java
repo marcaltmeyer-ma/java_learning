@@ -16,6 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 		boolean replay = true;
 		//boolean multiplayer = true;
+		while (replay) {
 		char playerNum = 'l';
 		
 		System.out.println("For local multiplayer, enter 'l'.");
@@ -26,21 +27,22 @@ public class Main {
 
 		
 		if (playerNum == 'l') {
-			localMultiplayer(replay);
+			replay = localMultiplayer(replay);
 		} else if (playerNum == 's') {
-			singleplayer(replay);
+			replay = singleplayer(replay);
 		} else if (playerNum == 'n') {
 			System.out.println("Network not yet implemented");
 		}
 
     //MAX That's a nice and concise main function.
-    scanner.close();
+		}
+		scanner.close();
 	}
 
 	
 	//The function that starts local multiplayer
-	public static void localMultiplayer(boolean replay) {
-		while (replay == true) {
+	public static boolean localMultiplayer(boolean replay) {
+		//while (replay == true) {
 			System.out.println("Enter a word.");
 			int lives = 10;
 			//String solution = enterWord();
@@ -52,13 +54,14 @@ public class Main {
 					
       //MAX Just an idea: What about putting these prints in a function and printing them when the user types '?'?
 			askRules();
-			enterLetter(word, solution, lives, replay);
-		}
+			replay = enterLetter(word, solution, lives, replay);
+		//}
+		return replay;
 	}
 	
 	//Starts single player with a random word
-	public static void singleplayer(boolean replay) {
-		while (replay == true) {
+	public static boolean singleplayer(boolean replay) {
+		//while (replay == true) {
 			int lives = 10;
 			List<String> wordlst = openWordList();
 			Random rand = new Random();
@@ -67,8 +70,9 @@ public class Main {
 			char[] word = getArray(solution);
 			System.out.println(word);
 			askRules();
-			enterLetter(word, solution, lives, replay);
-			}
+			replay = enterLetter(word, solution, lives, replay);
+			//}
+		return replay;
 	}
 	
 	//The function for the first player entering the word
@@ -127,13 +131,13 @@ public class Main {
 	public static boolean askAgain(boolean replay) {
 		System.out.println("If you want to play again, enter 'y', else enter 'n'.");
 		String rep = scanner.next();
-		if (rep == "y") {
+		if (rep.equals("y")) {
       //MAX booleans are passed by *value* in Java, you get a copy of the value
       //MAX and the original value of the calling function won't be changed!
       //MAX You should return a bool, if you want to pass it to the calling function.
 			System.out.println("replay = true");
 			return true;
-		} else if (rep == "n") {
+		} else if (rep.equals("n")) {
 			System.out.println("replay = false");
 			return false;
 		}
