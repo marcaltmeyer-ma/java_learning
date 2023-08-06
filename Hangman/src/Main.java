@@ -1,19 +1,21 @@
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 import java.io.Console;
 import java.io.IOException;
 import java.nio.file.Files;
 //import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+import CheckPackage.*;
 
 public class Main {
 	// MAX I defined the Scanner as static class variable. It can be used
 	// MAX everywhere where you created an extra Scanner.
 	static Scanner scanner = new Scanner(System.in);
-
+	Checker equalCheck = new Checker();
+	
 	public static void main(String[] args) {
 		boolean replay = true;
 		// boolean multiplayer = true;
@@ -151,6 +153,7 @@ public class Main {
 		char[] wrong = new char[26];
 		int i = 0;
 		int idx = 0;
+		boolean alreadyGuessed = false;
 
 		// MAX debug output in release version
 		while (String.valueOf(word) != solution && lives > 0) {
@@ -167,6 +170,7 @@ public class Main {
 			} else if (token == '=') {// TODO Debug line! Delete!
 				System.out.println(solution);
 			} else {
+				alreadyGuessed = equalCheck.checker(token, wrong); 
 				for (; idx < solution.length(); idx++) {
 					if (token == solution.charAt(idx)) {
 						helper = true; // MAX not quite sure what helper is used for. Is it just to
