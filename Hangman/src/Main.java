@@ -8,14 +8,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import CheckPackage.*;
+
+import CheckPackage.Checker;
 
 public class Main {
 	// MAX I defined the Scanner as static class variable. It can be used
 	// MAX everywhere where you created an extra Scanner.
 	static Scanner scanner = new Scanner(System.in);
-	Checker equalCheck = new Checker();
-	
+	// Checker equalCheck = new Checker();
+
 	public static void main(String[] args) {
 		boolean replay = true;
 		// boolean multiplayer = true;
@@ -153,10 +154,11 @@ public class Main {
 		char[] wrong = new char[26];
 		int i = 0;
 		int idx = 0;
-		boolean alreadyGuessed = false;
+		boolean guessedCharInWord = false;
+		boolean guessedCharInWrong = false;
 
 		// MAX debug output in release version
-		while (String.valueOf(word) != solution && lives > 0) {
+		while (!String.valueOf(word).equals(solution) && lives > 0) {
 			char token = scanner.next().charAt(0);
 			boolean helper = false;
 			if (token == '#') {
@@ -169,8 +171,11 @@ public class Main {
 				askRules();
 			} else if (token == '=') {// TODO Debug line! Delete!
 				System.out.println(solution);
+			} else if ((guessedCharInWrong = Checker.checker(token, wrong))
+					|| (guessedCharInWord = Checker.checker(token, word))) {
+				System.out.println(token
+						+ " has already been guessed. Press - to check the wrongly guessed letters, or = to see the word so far.");
 			} else {
-				alreadyGuessed = equalCheck.checker(token, wrong); 
 				for (; idx < solution.length(); idx++) {
 					if (token == solution.charAt(idx)) {
 						helper = true; // MAX not quite sure what helper is used for. Is it just to
@@ -190,34 +195,34 @@ public class Main {
 				if (idx >= solution.length() && helper == false) {
 					// System.out.println("End of word");
 					System.out.println(token + " is not in the word!");
-					System.out.println("You have " + lives + " lives left.");
 					lives--;
+					System.out.println("You have " + lives + " lives left.");
 					wrong[i] = token;
 					i++;
 				}
 
 				// MAX this if statement kind of seems redundant...
 				// MAX Does it do something different from the one above?
-				if (idx > solution.length()) {
-					System.out.println("This letter is not in the word.");
-					lives--;
-					System.out.println("You have " + lives + " lives left.");
-					wrong[i] = token;
-					i++;
-				}
+//				if (idx > solution.length()) {
+//					System.out.println("This letter is not in the word.");
+//					lives--;
+//					System.out.println("You have " + lives + " lives left.");
+//					wrong[i] = token;
+//					i++;
+//				}
 				idx = 0;
 
-			}
-			if (String.valueOf(word).equals(solution)) {
-				System.out.println("You are correct! The word is " + solution);
-				System.out.println("You had " + lives + " lives left.");
-				replay = askAgain(replay);
-				return replay;
-			} else if (lives == 0) {
-				System.out.println("Welp, you suck. The word was " + solution + ", btw.");
-				replay = askAgain(replay);
-				return replay;
-			}
+			}//else
+		} //while
+		if (String.valueOf(word).equals(solution)) {
+			System.out.println("You are correct! The word is " + solution);
+			System.out.println("You had " + lives + " lives left.");
+			replay = askAgain(replay);
+			return replay;
+		} else if (lives == 0) {
+			System.out.println("Welp, you suck. The word was " + solution + ", btw.");
+			replay = askAgain(replay);
+			return replay;
 		}
 		return replay;
 	}
