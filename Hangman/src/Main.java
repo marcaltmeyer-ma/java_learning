@@ -156,11 +156,13 @@ public class Main {
 		int idx = 0;
 		boolean guessedCharInWord = false;
 		boolean guessedCharInWrong = false;
-		String inputWord = scanner.next();
+		System.out.println("word: " + String.valueOf(word));
 		// MAX debug output in release version
-		if (inputWord.length() == 1) {
+
 		while (!String.valueOf(word).equals(solution) && lives > 0) {
 			// char token = scanner.next().charAt(0);
+			String inputWord = scanner.next();
+			if (inputWord.length() == 1) {
 				char token = inputWord.charAt(0);
 				boolean helper = false;
 				if (token == '#') {
@@ -201,6 +203,7 @@ public class Main {
 						System.out.println("You have " + lives + " lives left.");
 						wrong[i] = token;
 						i++;
+						System.out.println("word: " + String.valueOf(word));
 					}
 
 					// MAX this if statement kind of seems redundant...
@@ -215,12 +218,19 @@ public class Main {
 					idx = 0;
 
 				}
-			} 
-		} else if (inputWord.equals(solution)) {
-			System.out.println("It works!");
-		} else {
-			System.out.println("Wrong word!");
-		} 
+			} else if (inputWord.equals(solution)) {
+				System.out.println("You are correct! The word is " + solution);
+				System.out.println("You had " + lives + " lives left.");
+				replay = askAgain(replay);
+				return replay;
+			} else {
+				//System.out.println("Wrong word!");
+				System.out.println(inputWord + " is not the word. Guess again!");
+				lives --;
+				System.out.println("You have " + lives + " lives left.");
+				System.out.println("word: " + String.valueOf(word));
+			}
+		}
 		if (String.valueOf(word).equals(solution)) {
 			System.out.println("You are correct! The word is " + solution);
 			System.out.println("You had " + lives + " lives left.");
