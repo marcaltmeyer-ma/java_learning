@@ -116,6 +116,7 @@ public class Main {
 		System.out.println("By entering '*', you can see how many lives you have left.");
 		System.out.println("To see the letters that were guessed wrong, enter '-'.");
 		System.out.println("To see these rules again, enter '?'.");
+		System.out.println("To see the current state of the word, press '='");
 	}// askRules
 
 	// Gives out the lives the player has left
@@ -143,6 +144,10 @@ public class Main {
 		}
 		return false;
 	}// askAgain
+	
+	public static void askWordGuessed(char[] word) {
+		System.out.println(word);
+	}
 
 	// MAX for these kinds of "experiments" I would rather use git branches than
 	// commenting
@@ -174,7 +179,8 @@ public class Main {
 				} else if (token == '?') {
 					askRules();
 				} else if (token == '=') {// TODO Debug line! Delete!
-					System.out.println(solution);
+					//System.out.println(solution);
+					askWordGuessed(word);
 				} else if ((guessedCharInWrong = Checker.checker(token, wrong))
 						|| (guessedCharInWord = Checker.checker(token, word))) {
 					System.out.println(token
