@@ -6,6 +6,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		Board board = new Board();
 		board.InitField(); 
+		board.PrintBoard(board);
 	}
 
 }
