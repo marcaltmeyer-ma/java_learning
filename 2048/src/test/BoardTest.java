@@ -19,8 +19,9 @@ class BoardTest {
 	@Test
 	void test() {
 		Board testboard = new Board();
-		testboard.InitField();
-		assertNotNull(testboard); //If the board is initialized correctly, the result should not be null 
+		//Board board = new Board();
+		//assertNotNull(testboard); //If the board is initialized correctly, the result should not be null
+		assertNotNull(testboard);
 	}
 
 }
