@@ -12,14 +12,11 @@ import java.util.Scanner;
 import CheckPackage.Checker;
 
 public class Main {
-	// MAX I defined the Scanner as static class variable. It can be used
-	// MAX everywhere where you created an extra Scanner.
 	static Scanner scanner = new Scanner(System.in);
-	// Checker equalCheck = new Checker();
+
 
 	public static void main(String[] args) {
 		boolean replay = true;
-		// boolean multiplayer = true;
 		while (replay) {
 			char playerNum = 'l';
 
@@ -36,35 +33,26 @@ public class Main {
 			} else if (playerNum == 'n') {
 				System.out.println("Network not yet implemented");
 			}
-
-			// MAX That's a nice and concise main function.
 		} // while(replay)
 		scanner.close();
 	}
 
 	// The function that starts local multiplayer
 	public static boolean localMultiplayer(boolean replay) {
-		// while (replay == true) {
 		System.out.println("Enter a word.");
 		int lives = 10;
-		// String solution = enterWord();
 		char[] word = enterWord();
 
-		// MAX I wouldn't want to have commented-out code in a "release" version.
 		String solution = String.valueOf(word).toLowerCase();
 		word = getArray(solution);
 
-		// MAX Just an idea: What about putting these prints in a function and printing
-		// them when the user types '?'?
 		askRules();
 		replay = enterLetter(word, solution, lives, replay);
-		// }
 		return replay;
 	}// localMultiplayer
 
 	// Starts single player with a random word
 	public static boolean singleplayer(boolean replay) {
-		// while (replay == true) {
 		int lives = 10;
 		List<String> wordlst = openWordList();
 		Random rand = new Random();
@@ -130,14 +118,10 @@ public class Main {
 	}// askWrong
 
 	// Ask the player if they want to play again
-	// MAX trailing whitespace (well, before I put the comment on the line ^^)
 	public static boolean askAgain(boolean replay) {
 		System.out.println("If you want to play again, enter 'y', else enter 'n'.");
 		String rep = scanner.next();
 		if (rep.equals("y")) {
-			// MAX booleans are passed by *value* in Java, you get a copy of the value
-			// MAX and the original value of the calling function won't be changed!
-			// MAX You should return a bool, if you want to pass it to the calling function.
 			return true;
 		} else if (rep.equals("n")) {
 			return false;
@@ -149,10 +133,6 @@ public class Main {
 		System.out.println(word);
 	}
 
-	// MAX for these kinds of "experiments" I would rather use git branches than
-	// commenting
-	// MAX out large portions of code.
-
 	// The gameplay-function. Here, the processes that are caused by player-input
 	// happen
 	public static boolean enterLetter(char[] word, String solution, int lives, boolean replay) {
@@ -162,10 +142,8 @@ public class Main {
 		boolean guessedCharInWord = false;
 		boolean guessedCharInWrong = false;
 		System.out.println("word: " + String.valueOf(word));
-		// MAX debug output in release version
 
 		while (!String.valueOf(word).equals(solution) && lives > 0) {
-			// char token = scanner.next().charAt(0);
 			String inputWord = scanner.next();
 			if (inputWord.length() == 1) {
 				char token = inputWord.charAt(0);
@@ -178,8 +156,7 @@ public class Main {
 					askWrong(wrong);
 				} else if (token == '?') {
 					askRules();
-				} else if (token == '=') {// TODO Debug line! Delete!
-					//System.out.println(solution);
+				} else if (token == '=') {
 					askWordGuessed(word);
 				} else if ((guessedCharInWrong = Checker.checker(token, wrong))
 						|| (guessedCharInWord = Checker.checker(token, word))) {
@@ -188,22 +165,13 @@ public class Main {
 				} else {
 					for (; idx < solution.length(); idx++) {
 						if (token == solution.charAt(idx)) {
-							helper = true; // MAX not quite sure what helper is used for. Is it just to
-							// MAX say that the current char is in the word?
-							// MAX You might want to use a better name here.
+							helper = true;
 							System.out.println(token + " " + "is in the word!");
 							word[idx] = token;
 							System.out.println("word: " + String.valueOf(word));
-							// MAX one important element of hangman isn't implmented yet:
-							// MAX You don't show where the blanks in the word are.
-							// MAX Let's say the word is "messer" and the user guesses "e"
-							// MAX then your word would show as "ee". It would be nice if it
-							// MAX showed as "_e__e_".
-
 						}
 					}
 					if (idx >= solution.length() && helper == false) {
-						// System.out.println("End of word");
 						System.out.println(token + " is not in the word!");
 						lives--;
 						System.out.println("You have " + lives + " lives left.");
@@ -211,16 +179,6 @@ public class Main {
 						i++;
 						System.out.println("word: " + String.valueOf(word));
 					}
-
-					// MAX this if statement kind of seems redundant...
-					// MAX Does it do something different from the one above?
-//				if (idx > solution.length()) {
-//					System.out.println("This letter is not in the word.");
-//					lives--;
-//					System.out.println("You have " + lives + " lives left.");
-//					wrong[i] = token;
-//					i++;
-//				}
 					idx = 0;
 
 				}
@@ -230,9 +188,8 @@ public class Main {
 				replay = askAgain(replay);
 				return replay;
 			} else {
-				//System.out.println("Wrong word!");
 				System.out.println(inputWord + " is not the word. Guess again!");
-				lives --;
+				lives -=2;
 				System.out.println("You have " + lives + " lives left.");
 				System.out.println("word: " + String.valueOf(word));
 			}

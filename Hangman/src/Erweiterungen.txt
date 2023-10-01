@@ -8,7 +8,7 @@ Liste möglicher Erweiterungen:
 -  Abbruchbedingen ("stopp" schreiben)
 -  Mehrspielermodi (Done-ish)
 -  Toleranz gegen Groß- & Kleinschreibung (Done)
--  komplettes Lösungswort raten 
+-  komplettes Lösungswort raten (Done)
 -  Einleitung
 -  Wortkategorien
 -  interaktiver / unterhaltsamer durch Multimodalität (z.B. Animationen und Soundeffekte)
