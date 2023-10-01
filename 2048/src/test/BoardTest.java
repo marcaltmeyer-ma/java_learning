@@ -8,20 +8,18 @@ import org.junit.jupiter.api.Test;
 
 import game2048.Board;
 
+/*
+Tests if the field is initialized correctly. To pass, the val of the tiles on the board should not be null,
+but instead be initialized to 0
+*/
 class BoardTest {
 	Board board;
 
-//	@BeforeEach
-//	void setUp() {
-//		Board testboard = new Board();
-//	}
 
 	@Test
 	void test() {
 		Board testboard = new Board();
-		//Board board = new Board();
-		//assertNotNull(testboard); //If the board is initialized correctly, the result should not be null
-		assertNotNull(testboard);
+		assertNotNull(testboard);//If the board is initialized correctly, the result should not be null
 	}
 
 }
