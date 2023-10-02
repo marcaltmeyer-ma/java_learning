@@ -57,7 +57,7 @@ public class Board {
 			System.out.println("Move up");
 			for (int i = 0; i < board.length; i++) {
 				for (int j = 0; j < board.length; j++) {
-					System.out.println(gameboard[j][i]);
+					System.out.println(gameboard.board[j][i]);
 				}
 			}
 		} else if (dir.equals("left")) {
