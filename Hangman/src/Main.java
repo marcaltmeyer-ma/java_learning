@@ -32,6 +32,8 @@ public class Main {
 				replay = singleplayer(replay);
 			} else if (playerNum == 'n') {
 				System.out.println("Network not yet implemented");
+			} else {
+				System.out.println("Invalid choice. Exiting game.");
 			}
 		} // while(replay)
 		scanner.close();
@@ -39,12 +41,12 @@ public class Main {
 
 	// The function that starts local multiplayer
 	public static boolean localMultiplayer(boolean replay) {
-		System.out.println("Enter a word.");
 		int lives = 10;
+		System.out.println("Enter a word.");
 		char[] word = enterWord();
 
 		String solution = String.valueOf(word).toLowerCase();
-		word = getArray(solution);
+		word = getHangmanArray(solution);
 
 		askRules();
 		replay = enterLetter(word, solution, lives, replay);
@@ -58,7 +60,7 @@ public class Main {
 		Random rand = new Random();
 		String randomElement = wordlst.get(rand.nextInt(wordlst.size()));
 		String solution = randomElement.toLowerCase();
-		char[] word = getArray(solution);
+		char[] word = getHangmanArray(solution);
 		System.out.println(word);
 		askRules();
 		replay = enterLetter(word, solution, lives, replay);
@@ -69,8 +71,7 @@ public class Main {
 	// The function for the first player entering the word
 	public static char[] enterWord() {
 		Console cons = System.console();
-		char[] word;
-		word = cons.readPassword();
+		char[] word = cons.readPassword();
 		return word;
 	}// enterWord
 
@@ -80,13 +81,13 @@ public class Main {
 		try {
 			words = Files.readAllLines(Paths.get("wordlist.txt"));
 		} catch (IOException e) {
-			System.out.println("WordList fuckup");
+			System.out.println("Error while reading words from wordlist");
 		}
 		return words;
 	}// openWordList
 
 	// A helping function to get the Hangman-typical _-notation of the word
-	public static char[] getArray(String solu) {
+	public static char[] getHangmanArray(String solu) {
 		char[] word = new char[solu.length()];
 		Arrays.fill(word, '_');
 		return word;
@@ -129,7 +130,7 @@ public class Main {
 		return false;
 	}// askAgain
 	
-	public static void askWordGuessed(char[] word) {
+	public static void askCurrentWord(char[] word) {
 		System.out.println(word);
 	}
 
@@ -137,17 +138,14 @@ public class Main {
 	// happen
 	public static boolean enterLetter(char[] word, String solution, int lives, boolean replay) {
 		char[] wrong = new char[26];
-		int i = 0;
-		int idx = 0;
-		boolean guessedCharInWord = false;
-		boolean guessedCharInWrong = false;
+		int wrongIndex = 0;
 		System.out.println("word: " + String.valueOf(word));
 
 		while (!String.valueOf(word).equals(solution) && lives > 0) {
 			String inputWord = scanner.next();
 			if (inputWord.length() == 1) {
 				char token = inputWord.charAt(0);
-				boolean helper = false;
+				boolean isCharInSol = false;
 				if (token == '#') {
 					askLength(word);
 				} else if (token == '*') {
@@ -157,30 +155,28 @@ public class Main {
 				} else if (token == '?') {
 					askRules();
 				} else if (token == '=') {
-					askWordGuessed(word);
-				} else if ((guessedCharInWrong = Checker.checker(token, wrong))
-						|| (guessedCharInWord = Checker.checker(token, word))) {
+					askCurrentWord(word);
+				} else if (Checker.check(token, wrong)
+						|| Checker.check(token, word)) {
 					System.out.println(token
 							+ " has already been guessed. Press - to check the wrongly guessed letters, or = to see the word so far.");
 				} else {
-					for (; idx < solution.length(); idx++) {
+					for (int idx = 0; idx < solution.length(); idx++) {
 						if (token == solution.charAt(idx)) {
-							helper = true;
+							isCharInSol = true;
 							System.out.println(token + " " + "is in the word!");
 							word[idx] = token;
 							System.out.println("word: " + String.valueOf(word));
 						}
 					}
-					if (idx >= solution.length() && helper == false) {
+					if (isCharInSol == false) {
 						System.out.println(token + " is not in the word!");
 						lives--;
 						System.out.println("You have " + lives + " lives left.");
-						wrong[i] = token;
-						i++;
+						wrong[wrongIndex] = token;
+						wrongIndex++;
 						System.out.println("word: " + String.valueOf(word));
 					}
-					idx = 0;
-
 				}
 			} else if (inputWord.equals(solution)) {
 				System.out.println("You are correct! The word is " + solution);
@@ -189,7 +185,7 @@ public class Main {
 				return replay;
 			} else {
 				System.out.println(inputWord + " is not the word. Guess again!");
-				lives -=2;
+				lives -= 2;
 				System.out.println("You have " + lives + " lives left.");
 				System.out.println("word: " + String.valueOf(word));
 			}

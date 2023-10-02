@@ -2,13 +2,11 @@ package CheckPackage;
 
 public class Checker {
 
-	public static boolean checker(char check, char[] toCheck) {
-		// TODO Auto-generated method stub
+	public static boolean check(char checkChar, char[] toCheck) {
 		for (int i = 0; i < toCheck.length; i++) {
-			if (check == toCheck[i]) {
+			if (checkChar == toCheck[i]) {
 				return true;
 			}
-			//return false;
 		}
 		return false;
 	}
