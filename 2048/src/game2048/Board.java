@@ -37,9 +37,9 @@ public class Board {
 	
 	public Board() {
 
-        //System.out.println("New tile:" + newTile); TODO Debug print
-//        System.out.println(x);					 TODO Debug print
-//        System.out.println(y);					 TODO Debug print
+        //System.out.println("New tile:" + newTile); //TODO Debug print
+//        System.out.println(x);					 //TODO Debug print
+//        System.out.println(y);					 //TODO Debug print
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 this.board[j][i] = new Tile(); //We initialize each field on the board as a tile
@@ -50,16 +50,11 @@ public class Board {
         newTile();
 	}
 	
-	public Board move(Board gameboard) {
-		Scanner direction = new Scanner(System.in);
-		String dir = direction.next();
+	public void move() {
+		Scanner scanner = new Scanner(System.in);
+		String dir = scanner.next();
 		if (dir.equals("up")) {
 			System.out.println("Move up");
-			for (int i = 0; i < board.length; i++) {
-				for (int j = 0; j < board.length; j++) {
-					System.out.println(gameboard.board[j][i]);
-				}
-			}
 		} else if (dir.equals("left")) {
 			System.out.println("Move left");
 		} else if (dir.equals("right")) {
@@ -67,9 +62,8 @@ public class Board {
 		} else if (dir.equals("down")) {
 			System.out.println("Move down");
 		}
-		//direction.close();
-		gameboard.print();
-		return gameboard;
+		//scanner.close();
+		print();
 	}
 	
 	public void print() {
