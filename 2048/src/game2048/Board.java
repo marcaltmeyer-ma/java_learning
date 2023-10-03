@@ -35,6 +35,14 @@ public class Board {
 		randomTile.val = randomValue;
 	}
 	
+	public void fillManually(int j, int i, int tileValue) {
+		/*
+		 * A Testing function that initializes a non-random tile with a non-random value
+		 */
+		this.board[j][i].occupied = true;
+		this.board[j][i].val = tileValue;
+	}
+	
 	public Board() {
 
         //System.out.println("New tile:" + newTile); //TODO Debug print
@@ -53,14 +61,70 @@ public class Board {
 	public void move() {
 		Scanner scanner = new Scanner(System.in);
 		String dir = scanner.next();
-		if (dir.equals("up")) {
+		if (dir.equals("up")) {  //i - n, j = j
 			System.out.println("Move up");
-		} else if (dir.equals("left")) {
+			for (int i = 3; i == 0; i--) {
+				for (int j = 3; j == 0; j--) {
+					if (this.board[j][i].occupied == false) {
+						continue;
+					} else if (i == 0) {
+						continue;
+					} else {
+						this.board[j][i-1].occupied = true;
+						this.board[j][i-1].val *= this.board[j][i].val;
+						this.board[j][i].occupied = false;
+						this.board[j][i].val = 0;
+					}
+				}
+			}
+		} else if (dir.equals("left")) {  //i = i, j - n
 			System.out.println("Move left");
-		} else if (dir.equals("right")) {
+			for (int i = 3; i == 0; i--) {
+				for (int j = 3; j == 0; j--) {
+					if (this.board[j][i].occupied == false) {
+						continue;
+					} else if (j == 0) {
+						continue;
+					} else {
+						this.board[j-1][i].occupied = true;
+						this.board[j-1][i].val *= this.board[j][i].val;
+						this.board[j][i].occupied = false;
+						this.board[j][i].val = 0;
+					}
+				}
+			}
+		} else if (dir.equals("right")) {  //i = i, j + n
 			System.out.println("Move right");
-		} else if (dir.equals("down")) {
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					if (this.board[j][i].occupied == false) {
+						continue;
+					} else if (j == 3) {
+						continue;
+					} else {
+						this.board[j+1][i].occupied = true;
+						this.board[j+1][i].val *= this.board[j][i].val;
+						this.board[j][i].occupied = false;
+						this.board[j][i].val = 0;
+					}
+				}
+			}
+		} else if (dir.equals("down")) {  //i + n, j = j
 			System.out.println("Move down");
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					if (this.board[j][i].occupied == false) {
+						continue;
+					} else if (i == 3) {
+						continue;
+					} else {
+						this.board[j][i+1].occupied = true;
+						this.board[j][i+1].val *= this.board[j][i].val;
+						this.board[j][i].occupied = false;
+						this.board[j][i].val = 0;
+					}
+				}
+			}
 		}
 		//scanner.close();
 		print();
