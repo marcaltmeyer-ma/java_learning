@@ -1,5 +1,6 @@
 package game2048;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,8 +8,37 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Board {
-	Tile[][] board= new Tile[4][4];
+	public Tile[][] board= new Tile[4][4];
 
+	public enum Direction {
+		UP,
+		LEFT,
+		DOWN,
+		RIGHT
+	}
+	
+	public static Direction getDirectionFromInput() throws Exception {
+		/*
+		 * Takes user-input and transforms it into a Direction
+		 */
+		Scanner scanner = new Scanner(System.in);
+		String s = scanner.next().toLowerCase();
+		Direction direction;
+		if (s.equals("up") || s.equals("w")) {
+			direction = Direction.UP;
+		} else if (s.equals("left") || s.equals("a")) {
+			direction = Direction.LEFT;
+		} else if (s.equals("right") || s.equals("d")) {
+			direction =  Direction.RIGHT;
+		} else if (s.equals("down") || s.equals("s")) {
+			direction =  Direction.DOWN;
+		} else {
+			scanner.close();
+			throw new Exception("This is not a direction");
+		}
+		scanner.close();
+		return direction;
+	}
 	
 	public void newTile() {
 		/*
@@ -58,26 +88,38 @@ public class Board {
         newTile();
 	}
 	
-	public void move() {
-		Scanner scanner = new Scanner(System.in);
-		String dir = scanner.next();
-		if (dir.equals("up")) {  //i - n, j = j
+	public void move(Direction direction) {
+//		Scanner scanner = new Scanner(System.in);
+//		String dir = scanner.next();
+		int counter = 0;
+		if (direction == Direction.UP) {  //i - n, j = j
 			System.out.println("Move up");
-			for (int i = 3; i == 0; i--) {
-				for (int j = 3; j == 0; j--) {
+			for (int j = 3; j >= 0; j--) {
+				counter += 1;
+				System.out.println(counter);
+				for (int i = 3; i >= 0; i--) {
 					if (this.board[j][i].occupied == false) {
 						continue;
 					} else if (i == 0) {
+						System.out.println("i == 0");
 						continue;
 					} else {
+						System.out.println("Am I here?");
+						System.out.println("y = " + i);
+						System.out.println("x = " + j);
 						this.board[j][i-1].occupied = true;
-						this.board[j][i-1].val *= this.board[j][i].val;
-						this.board[j][i].occupied = false;
-						this.board[j][i].val = 0;
+						if (this.board[j][i-1].val == this.board[j][i].val || this.board[j][i-1].occupied == false) {
+							System.out.println("Adding Stuff");
+							this.board[j][i-1].val += this.board[j][i].val;
+							this.board[j][i].occupied = false;
+							this.board[j][i].val = 0;
+						} else {
+							continue;
+						}
 					}
 				}
 			}
-		} else if (dir.equals("left")) {  //i = i, j - n
+		} else if (direction == Direction.LEFT) {  //i = i, j - n
 			System.out.println("Move left");
 			for (int i = 3; i == 0; i--) {
 				for (int j = 3; j == 0; j--) {
@@ -93,7 +135,7 @@ public class Board {
 					}
 				}
 			}
-		} else if (dir.equals("right")) {  //i = i, j + n
+		} else if (direction == Direction.RIGHT) {  //i = i, j + n
 			System.out.println("Move right");
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
@@ -109,7 +151,7 @@ public class Board {
 					}
 				}
 			}
-		} else if (dir.equals("down")) {  //i + n, j = j
+		} else if (direction == Direction.DOWN) {  //i + n, j = j
 			System.out.println("Move down");
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 4; j++) {
