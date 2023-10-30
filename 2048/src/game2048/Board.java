@@ -91,28 +91,31 @@ public class Board {
 	public void move(Direction direction) {
 //		Scanner scanner = new Scanner(System.in);
 //		String dir = scanner.next();
-		int counter = 0;
+//		int counter = 0;
 		if (direction == Direction.UP) {  //i - n, j = j
 			System.out.println("Move up");
 			for (int j = 3; j >= 0; j--) {
-				counter += 1;
-				System.out.println(counter);
 				for (int i = 3; i >= 0; i--) {
 					if (this.board[j][i].occupied == false) {
 						continue;
 					} else if (i == 0) {
-						System.out.println("i == 0");
+						//System.out.println("i == 0");
 						continue;
 					} else {
-						System.out.println("Am I here?");
-						System.out.println("y = " + i);
-						System.out.println("x = " + j);
-						this.board[j][i-1].occupied = true;
-						if (this.board[j][i-1].val == this.board[j][i].val || this.board[j][i-1].occupied == false) {
-							System.out.println("Adding Stuff");
+//						if (this.board[j][i-1].val == this.board[j][i].val || this.board[j][i-1].occupied == false) {
+						if (this.board[j][i-1].occupied == false) {
+							this.board[j][i-1].occupied = true;
 							this.board[j][i-1].val += this.board[j][i].val;
 							this.board[j][i].occupied = false;
 							this.board[j][i].val = 0;
+						} else if (this.board[j][i-1].occupied == true && this.board[j][i-1].val == this.board[j][i].val) {
+							this.board[j][i-1].occupied = true;
+							this.board[j][i-1].val += this.board[j][i].val;
+							this.board[j][i].occupied = false;
+							this.board[j][i].val = 0;							
+						} else if (this.board[j][i-1].occupied == true && this.board[j][i-1].val == this.board[j][i].val) {
+							System.out.println("this.board[j][i-1].occupied == true && this.board[j][i-1].val == this.board[j][i].val");
+							break;
 						} else {
 							continue;
 						}

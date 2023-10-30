@@ -19,6 +19,7 @@ class MoveLeftTest {
 		testboard.fillManually(3, 1, 2);
 		testboard.move(Direction.LEFT);
 		assertEquals(testboard.board[3][1].val,4);
+		testboard.print();
 	}
 
 }
