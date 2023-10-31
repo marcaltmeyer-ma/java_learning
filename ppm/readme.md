@@ -1,1 +1,1 @@
-This is a file that procedurally generates voronoi images in Java. It was implemented in cooperation with vdrummer
+This is a file that procedurally generates voronoi images in Java. It was implemented in cooperation with vdrummer (https://github.com/vdrummer/voronoi)
